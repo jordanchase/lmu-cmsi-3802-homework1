@@ -1,7 +1,7 @@
 # lmu-cmsi-3802-homework1
 
 <p align="center">
-  <img src="RímereLogo.png" width="220">
+  <img src="docs/RímereLogo.png" width="220">
 </p>
 
 <h1 align="center">Rímere</h1>
