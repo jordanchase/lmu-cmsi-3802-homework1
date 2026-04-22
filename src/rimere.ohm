@@ -1,0 +1,69 @@
+Rimere {
+  Program        = spacing Statement*
+
+  Statement
+    = BindingStmt
+    | SpeakStmt
+    | IfStmt
+    | FunctionStmt
+    | ReturnStmt
+    | ForStmt
+    | ExprStmt
+
+  BindingStmt    = "bindan" spaces ident spaces "as" spaces Exp terminator
+  SpeakStmt      = "sprecan" spaces Exp terminator
+  ReturnStmt     = "cweðan" spaces Exp terminator
+  ExprStmt       = Exp terminator
+
+  IfStmt         = "gif" spaces Exp spaces Block ElsePart?
+  ElsePart       = spaces "elles" spaces Block
+
+  FunctionStmt   = "ritan" spaces ident spaces "with" spaces ParamList? spaces Block
+  ParamList      = ListOf<ident, ",">
+
+  ForStmt        = "foran" spaces ident spaces "fram" spaces Exp spaces "to" spaces Exp spaces Block
+
+  Block          = ":" terminator Statement* "end" terminator?
+
+  Exp            = LogicExp
+
+  LogicExp       = CompareExp
+                 | LogicExp spaces "and" spaces CompareExp  -- and
+                 | LogicExp spaces "or" spaces CompareExp   -- or
+
+  CompareExp     = AddExp
+                 | AddExp spaces CompOp spaces AddExp       -- compare
+
+  CompOp         = "==" | "!=" | ">=" | "<=" | ">" | "<"
+
+  AddExp         = AddExp spaces "+" spaces MulExp          -- plus
+                 | AddExp spaces "-" spaces MulExp          -- minus
+                 | MulExp
+
+  MulExp         = MulExp spaces "*" spaces PriExp          -- times
+                 | MulExp spaces "/" spaces PriExp          -- divide
+                 | PriExp
+
+  PriExp         = number
+                 | string
+                 | boolean
+                 | FunctionCall
+                 | ident
+                 | "(" spaces Exp spaces ")"
+
+  FunctionCall   = ident "(" spaces ArgList? spaces ")"
+  ArgList        = ListOf<Exp, ",">
+
+  boolean        = "soþ" | "na"
+
+  ident          = identStart identPart*
+  identStart     = letter | "_"
+  identPart      = letter | digit | "_"
+
+  number         = digit+ ("." digit+)?
+  string         = "\"" stringChar* "\""
+  stringChar     = ~"\"" any
+
+  terminator     = spaces (";" | "\n")+ spaces
+  spaces         = (" " | "\t" | "\n")*
+}
