@@ -15,15 +15,13 @@ Rimere {
   ReturnStmt     = "cweðan" spaces Exp terminator
   ExprStmt       = Exp terminator
 
-  IfStmt         = "gif" spaces Exp spaces Block ElsePart?
-  ElsePart       = spaces "elles" spaces Block
+  IfStmt         = "gif" spaces Exp spaces ":" terminator Statement* ElseClause? "end" terminator?
+  ElseClause     = "elles" spaces ":" terminator Statement*
 
-  FunctionStmt   = "ritan" spaces ident spaces "with" spaces ParamList? spaces Block
+  FunctionStmt   = "ritan" spaces ident spaces "with" spaces ParamList? spaces ":" terminator Statement* "end" terminator?
   ParamList      = ListOf<ident, ",">
 
-  ForStmt        = "foran" spaces ident spaces "fram" spaces Exp spaces "to" spaces Exp spaces Block
-
-  Block          = ":" terminator Statement* "end" terminator?
+  ForStmt        = "foran" spaces ident spaces "fram" spaces Exp spaces "to" spaces Exp spaces ":" terminator Statement* "end" terminator?
 
   Exp            = LogicExp
 
